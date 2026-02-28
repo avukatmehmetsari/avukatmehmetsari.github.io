@@ -363,6 +363,71 @@ section {
   line-height: 1.7;
 }
 
+/* ===== ARTICLES ===== */
+#articles {
+  background-color: var(--white);
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 28px;
+  background-color: var(--off-white);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(15, 27, 45, 0.08);
+  border-color: var(--gold);
+}
+
+.article-date {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.article-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.5;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.article-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy-light);
+  transition: color 0.3s ease;
+}
+
+.article-card:hover .article-link {
+  color: var(--gold);
+}
+
+.articles-loading,
+.articles-empty {
+  text-align: center;
+  font-size: 0.93rem;
+  color: var(--text-medium);
+  grid-column: 1 / -1;
+  padding: 40px 0;
+}
+
 /* ===== CONTACT ===== */
 #contact {
   background-color: var(--white);
@@ -463,7 +528,8 @@ footer {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .cards-grid,
-  .contact-grid {
+  .contact-grid,
+  .articles-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -541,6 +607,13 @@ footer {
 
   /* Cards */
   .cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* Articles */
+  .articles-grid {
     grid-template-columns: 1fr;
     max-width: 420px;
     margin: 0 auto;

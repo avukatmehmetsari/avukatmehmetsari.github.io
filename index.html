@@ -24,6 +24,7 @@
         <ul>
           <li><a href="#about">Hakkımda</a></li>
           <li><a href="#practice">Faaliyet Alanları</a></li>
+          <li><a href="#articles">Makaleler</a></li>
           <li><a href="#contact">İletişim</a></li>
         </ul>
       </nav>
@@ -127,6 +128,17 @@
     </div>
   </section>
 
+  <!-- ARTICLES -->
+  <section id="articles">
+    <div class="container">
+      <h2 class="section-title">Son Makaleler</h2>
+      <div class="section-divider"></div>
+      <div id="articles-grid" class="articles-grid">
+        <p class="articles-loading">Makaleler yükleniyor...</p>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
     <div class="container">
@@ -218,6 +230,40 @@
         header.classList.remove('scrolled');
       }
     });
+
+    /* Fetch Medium articles */
+    (function () {
+      var feedUrl = 'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@avukatmehmetsari';
+      var grid = document.getElementById('articles-grid');
+
+      fetch(feedUrl)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+            grid.innerHTML = '<p class="articles-empty">Henüz yayınlanmış makale bulunmamaktadır.</p>';
+            return;
+          }
+          var items = data.items.slice(0, 3);
+          var html = '';
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var date = new Date(item.pubDate);
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var year = date.getFullYear();
+            var formatted = day + '.' + month + '.' + year;
+            html += '<a href="' + item.link + '" class="article-card" target="_blank" rel="noopener noreferrer">';
+            html += '<div class="article-date">' + formatted + '</div>';
+            html += '<h3 class="article-title">' + item.title + '</h3>';
+            html += '<span class="article-link">Makaleyi Oku &rarr;</span>';
+            html += '</a>';
+          }
+          grid.innerHTML = html;
+        })
+        .catch(function () {
+          grid.innerHTML = '<p class="articles-empty">Makaleler şu anda yüklenemiyor.</p>';
+        });
+    })();
 
     /* Smooth scroll for anchor links */
     var anchors = document.querySelectorAll('a[href^="#"]');
